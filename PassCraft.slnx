@@ -2,7 +2,9 @@
   <Folder Name="/Elementos de la solución/">
     <File Path=".gitmessage" />
   </Folder>
-  <Project Path="PassCraft/PassCraft.csproj">
+  <Project Path="PassCraft.Core/PassCraft.Core.csproj" />
+  <Project Path="PassCraft.Tests/PassCraft.Tests.csproj" />
+  <Project Path="PassCraft.UI/PassCraft.UI.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
 </Solution>

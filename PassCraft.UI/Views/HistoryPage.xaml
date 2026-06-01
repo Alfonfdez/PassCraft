@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:PassCraft.Core.Models;assembly=PassCraft.Core"
+             x:Class="PassCraft.UI.Views.HistoryPage"
+             Title="Password History">
+
+    <Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="10">
+
+        <Grid Grid.Row="0" ColumnDefinitions="60, *, 60" BackgroundColor="{StaticResource Secondary}" Padding="10,8">
+            <Label Grid.Column="0" Text="#" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Grid.Column="1" Text="Password" FontAttributes="Bold" Margin="5,0,0,0" />
+            <Label Grid.Column="2" Text="Copy" FontAttributes="Bold" HorizontalOptions="Center" />
+        </Grid>
+
+        <CollectionView Grid.Row="1" x:Name="HistoryCollectionView" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="30">
+                    <Label Text="No passwords generated yet!" FontSize="16" TextColor="Gray" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PasswordItem">
+                    <Grid ColumnDefinitions="60, *, 60" Padding="10" BackgroundColor="Transparent">
+
+                        <Label Grid.Column="0" Text="{Binding Index}" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold"/>
+
+                        <Label Grid.Column="1" 
+                               Text="{Binding Password}" 
+                               VerticalOptions="Center" 
+                               FontFamily="Monospace" 
+                               FontSize="14" 
+                               LineBreakMode="CharacterWrap"
+                               MaxLines="2"/>
+
+                        <Button Grid.Column="2" Text="📋" WidthRequest="44" HeightRequest="36" Padding="0" BackgroundColor="Transparent" Clicked="OnCopyRowClicked"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

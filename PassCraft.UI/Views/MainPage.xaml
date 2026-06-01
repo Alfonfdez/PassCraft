@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:constants="clr-namespace:PassCraft.Core.Constants;assembly=PassCraft.Core"
+             x:Class="PassCraft.UI.Views.MainPage"
+             Title="PassCraft Generator">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="History ⏳" 
+                     Order="Primary" 
+                     Priority="0" 
+                     Clicked="OnViewHistoryClicked" />
+    </ContentPage.ToolbarItems>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="Center" WidthRequest="360">
+
+            <Label Text="Password Generator" FontSize="26" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10,0,5" />
+
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Editor Grid.Column="0" 
+                        x:Name="PasswordEntry" 
+                        IsReadOnly="True" 
+                        FontFamily="Monospace" 
+                        FontSize="16" 
+                        Placeholder="Click generate..." 
+                        HorizontalTextAlignment="Center"
+                        AutoSize="TextChanges"
+                        HeightRequest="60" />
+
+                <Button Grid.Column="1" x:Name="CopyBtn" Text="📋" WidthRequest="50" Clicked="OnCopyClicked" VerticalOptions="Center" />
+            </Grid>
+
+            <Border Stroke="{StaticResource Primary}" StrokeThickness="1" Padding="15,10">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="5">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="Password Length" FontAttributes="Bold" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" Text="{Binding Source={x:Reference LengthSlider}, Path=Value, StringFormat='{0:F0}'}" FontAttributes="Bold" TextColor="{StaticResource Primary}" FontSize="16"/>
+                    </Grid>
+                    <Slider x:Name="LengthSlider" Minimum="1" Maximum="30" Value="15" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Stroke="Transparent" Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Uppercase" VerticalOptions="Center"/>
+                        <Switch Grid.Column="1" x:Name="UpperSwitch" IsToggled="True" Toggled="OnFilterToggled" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Lowercase" VerticalOptions="Center"/>
+                        <Switch Grid.Column="1" x:Name="LowerSwitch" IsToggled="True" Toggled="OnFilterToggled" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Numbers" VerticalOptions="Center"/>
+                        <Switch Grid.Column="1" x:Name="NumbersSwitch" IsToggled="True" Toggled="OnFilterToggled" />
+                    </Grid>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Text="Symbols" VerticalOptions="Center"/>
+                        <Switch Grid.Column="1" x:Name="SymbolsSwitch" IsToggled="True" Toggled="OnSymbolsToggled" />
+                    </Grid>
+                    <VerticalStackLayout x:Name="SymbolsEditorLayout" Spacing="5" Margin="0,5,0,0">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" Text="Edit Symbols:" FontSize="13" FontAttributes="Bold" VerticalOptions="Center"/>
+                            <Button Grid.Column="1" Text="Reset 🔄" FontSize="11" Padding="5,2" HeightRequest="28" Clicked="OnResetSymbolsClicked" />
+                        </Grid>
+
+                        <Entry x:Name="SymbolsEntry" 
+                               Text="{x:Static constants:Constants.DefaultSymbols}" 
+                               FontSize="14" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button x:Name="GenerateBtn" Text="GENERATE PASSWORD" FontAttributes="Bold" HeightRequest="50" Clicked="OnGenerateClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
