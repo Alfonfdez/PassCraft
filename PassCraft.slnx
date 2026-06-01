@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="PassCraft/PassCraft.csproj" />
+  <Folder Name="/Elementos de la solución/">
+    <File Path=".gitmessage" />
+  </Folder>
+  <Project Path="PassCraft/PassCraft.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
 </Solution>

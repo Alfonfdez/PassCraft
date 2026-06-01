@@ -1,0 +1,11 @@
+# --- COMMIT BRIEF DESCRIPTION ---
+# <type>(<scope>): <short summary in lowercase, max 50 chars>
+# Example -> feat(ui): add history list copy button
+#
+# Allowed types: feat, fix, docs, style, refactor, perf, test, chore
+# ------------------------------------------------------------------
+
+# --- DETAILED DESCRIPTION (Optional) ---
+# - Why is this change needed?
+# - What does it solve?
+# - Any breaking changes?
