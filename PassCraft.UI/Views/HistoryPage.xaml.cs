@@ -10,7 +10,7 @@ namespace PassCraft.UI.Views
     /// Interaction logic behind the password logging panel interface.
     /// Binds historical track lists to streaming grids and handles individual row copy notifications.
     /// </summary>
-    public partial class HistoryPage : ContentPage
+    public partial class HistoryPage : BasePage
     {
         /// <summary>
         /// The tracking service used to query the snapshot historical logs.
@@ -38,14 +38,15 @@ namespace PassCraft.UI.Views
         }
 
         /// <summary>
-        /// Event handler executed when tapping the copy button on an explicit row item template.
-        /// Extracts the target string from the bound data context, forwards it to the clipboard, and raises an indexed alert.
+        /// Event handler executed when tapping the copy action on a row item.
+        /// Resolves the bound data context, transmits the password to the system clipboard, 
+        /// and displays an indexed toast notification.
         /// </summary>
-        /// <param name="sender">The interactive control source triggering the event.</param>
+        /// <param name="sender">The interactive UI element triggering the copy action.</param>
         /// <param name="e">The associated contextual event parameters.</param>
         private async void OnCopyRowClicked(object? sender, EventArgs e)
         {
-            if (sender is Button button && button.BindingContext is PasswordItem selectedItem)
+            if (sender is VisualElement element && element.BindingContext is PasswordItem selectedItem)
             {
                 if (string.IsNullOrWhiteSpace(selectedItem.Password)) return;
 

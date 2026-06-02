@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:constants="clr-namespace:PassCraft.Core.Constants;assembly=PassCraft.Core"
-             x:Class="PassCraft.UI.Views.MainPage"
-             Title="PassCraft">
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:PassCraft.UI.Views"
+                xmlns:constants="clr-namespace:PassCraft.Core.Constants;assembly=PassCraft.Core"
+                x:Class="PassCraft.UI.Views.MainPage"
+                Title="PassCraft">
 
-    <ContentPage.ToolbarItems>
+    <views:BasePage.ToolbarItems>
         <ToolbarItem x:Name="ThemeToggleBtn"
                      IconImageSource="{AppThemeBinding Light=ic_theme_light.png, Dark=ic_theme_dark.png}" 
                      Order="Primary" 
@@ -16,9 +17,9 @@
                      Order="Primary" 
                      Priority="1" 
                      Clicked="OnViewHistoryClicked" />
-    </ContentPage.ToolbarItems>
+    </views:BasePage.ToolbarItems>
 
-    <ScrollView>
+<ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="Center" WidthRequest="360">
 
             <Label Text="Password Generator" FontSize="26" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10,0,5" />
@@ -117,4 +118,4 @@
                     Clicked="OnGenerateClicked"/>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</views:BasePage>

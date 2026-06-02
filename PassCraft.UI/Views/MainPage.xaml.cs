@@ -9,7 +9,7 @@ namespace PassCraft.UI.Views
     /// Interaction logic for the main password generation dashboard interface.
     /// Handles character criteria aggregation, configuration state validation, and dispatching tasks to background core services.
     /// </summary>
-    public partial class MainPage : ContentPage
+    public partial class MainPage : BasePage
     {
         /// <summary>
         /// The decoupled generation engine utilized to build mathematically random character sequences.
@@ -106,20 +106,6 @@ namespace PassCraft.UI.Views
         {
             if (GenerateBtn == null) return;
             GenerateBtn.IsEnabled = UpperSwitch.IsToggled || LowerSwitch.IsToggled || NumbersSwitch.IsToggled || SymbolsSwitch.IsToggled;
-        }
-
-        /// <summary>
-        /// Event handler triggered when tapping the header theme configuration toggle button.
-        /// Flips the application's runtime theme environment dynamically between Light and Dark visual profiles.
-        /// </summary>
-        private void OnThemeToggleClicked(object? sender, EventArgs e)
-        {
-            if (Application.Current == null) return;
-
-            // Invert the current execution mode context
-            Application.Current.UserAppTheme = Application.Current.UserAppTheme == AppTheme.Dark
-                ? AppTheme.Light
-                : AppTheme.Dark;
         }
 
         /// <summary>
