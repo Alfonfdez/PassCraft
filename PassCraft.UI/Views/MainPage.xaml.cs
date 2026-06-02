@@ -109,6 +109,20 @@ namespace PassCraft.UI.Views
         }
 
         /// <summary>
+        /// Event handler triggered when tapping the header theme configuration toggle button.
+        /// Flips the application's runtime theme environment dynamically between Light and Dark visual profiles.
+        /// </summary>
+        private void OnThemeToggleClicked(object? sender, EventArgs e)
+        {
+            if (Application.Current == null) return;
+
+            // Invert the current execution mode context
+            Application.Current.UserAppTheme = Application.Current.UserAppTheme == AppTheme.Dark
+                ? AppTheme.Light
+                : AppTheme.Dark;
+        }
+
+        /// <summary>
         /// Event handler linked to the top header toolbar navigation element.
         /// Commands the root shell engine to route forward onto the password logging interface.
         /// </summary>

@@ -8,9 +8,23 @@
     <Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="10">
 
         <Grid Grid.Row="0" ColumnDefinitions="60, *, 60" BackgroundColor="{StaticResource Secondary}" Padding="10,8">
-            <Label Grid.Column="0" Text="#" FontAttributes="Bold" HorizontalOptions="Center" />
-            <Label Grid.Column="1" Text="Password" FontAttributes="Bold" Margin="5,0,0,0" />
-            <Label Grid.Column="2" Text="Copy" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Grid.Column="0" 
+                   Text="#" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+
+            <Label Grid.Column="1" 
+                   Text="Password" 
+                   FontAttributes="Bold" 
+                   Margin="5,0,0,0" 
+                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+
+            <Label Grid.Column="2" 
+                   Text="Copy" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         </Grid>
 
         <CollectionView Grid.Row="1" x:Name="HistoryCollectionView" SelectionMode="None">
