@@ -4,7 +4,7 @@
        xmlns:views="clr-namespace:PassCraft.UI.Views"
        x:Class="PassCraft.UI.AppShell">
 
-    <FlyoutItem Title="Generator" Icon="dotnet_bot.png">
+    <FlyoutItem Title="Generator" Icon="passcraft.svg">
         <ShellContent 
             Title="Generator" 
             ContentTemplate="{DataTemplate views:MainPage}" 
