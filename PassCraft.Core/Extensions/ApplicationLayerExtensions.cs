@@ -15,6 +15,7 @@ namespace PassCraft.Core.Extensions
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             // Register Business Logic Services
+            services.AddSingleton<IPasswordGenerationService, PasswordGenerationService>();
             services.AddSingleton<IPasswordHistoryService, PasswordHistoryService>();
 
             return services;
