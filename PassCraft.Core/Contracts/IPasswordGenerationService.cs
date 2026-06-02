@@ -13,7 +13,8 @@
         /// <param name="includeLower">True to include lowercase pool values.</param>
         /// <param name="includeNumbers">True to include numeric pool values.</param>
         /// <param name="customSymbols">A specific string of symbols to include. Passes null or empty to ignore.</param>
+        /// <param name="excludedChars">A string of specific characters to be removed from the final pool. Passes null or empty to ignore.</param>
         /// <returns>A string containing the randomly assembled password characters.</returns>
-        string GeneratePassword(int length, bool includeUpper, bool includeLower, bool includeNumbers, string? customSymbols);
+        string GeneratePassword(int length, bool includeUpper, bool includeLower, bool includeNumbers, string? customSymbols, string? excludedChars);
     }
 }

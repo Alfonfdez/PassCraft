@@ -19,58 +19,51 @@
                      Clicked="OnViewHistoryClicked" />
     </views:BasePage.ToolbarItems>
 
-<ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20" HorizontalOptions="Center" WidthRequest="360">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="10" HorizontalOptions="Center" WidthRequest="360">
 
-            <Label Text="Password Generator" FontSize="26" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10,0,5" />
+            <Label Text="Password Generator" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,5" />
 
             <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
                 <Editor Grid.Column="0" 
-                        x:Name="PasswordEntry" 
-                        IsReadOnly="True" 
-                        FontFamily="Monospace" 
-                        FontSize="16" 
-                        Placeholder="Tap below to generate"
-                        PlaceholderColor="{AppThemeBinding Light=#A09787, Dark=Gray}"
-                        TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                        HorizontalTextAlignment="Center"
-                        AutoSize="TextChanges"
-                        HeightRequest="60" />
-
+                    x:Name="PasswordEntry" 
+                    IsReadOnly="True" 
+                    FontFamily="Monospace" 
+                    FontSize="16" 
+                    AutoSize="TextChanges"
+                    MinimumHeightRequest="60"
+                    Placeholder="Tap to generate" />
                 <ImageButton Grid.Column="1" 
-                             x:Name="CopyBtn" 
-                             Source="{AppThemeBinding Light=ic_copy_light.png, Dark=ic_copy_dark.png}" 
-                             WidthRequest="50" 
-                             HeightRequest="50"
-                             Padding="12"
-                             BackgroundColor="Transparent"
-                             VerticalOptions="Center" 
-                             Clicked="OnCopyClicked" />
+                         x:Name="CopyBtn" 
+                         Source="{AppThemeBinding Light=ic_copy_light.png, Dark=ic_copy_dark.png}" 
+                         WidthRequest="45" 
+                         HeightRequest="45"
+                         Padding="10"
+                         BackgroundColor="Transparent"
+                         VerticalOptions="Center" 
+                         Clicked="OnCopyClicked" />
             </Grid>
 
-            <Border Stroke="{StaticResource PrimaryBrush}" StrokeThickness="1" Padding="15,10">
+            <Border Stroke="{StaticResource PrimaryBrush}" StrokeThickness="1" Padding="10,5">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <VerticalStackLayout Spacing="5">
+                <VerticalStackLayout Spacing="0">
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" Text="Password Length" FontAttributes="Bold" VerticalOptions="Center"/>
-
+                        <Label Text="Password Length" FontAttributes="Bold" VerticalOptions="Center"/>
                         <Label Grid.Column="1" 
-                               Text="{Binding Source={x:Reference LengthSlider}, Path=Value, StringFormat='{0:F0}'}" 
-                               FontAttributes="Bold" 
-                               TextColor="{AppThemeBinding Light=Black, Dark=White}" 
-                               FontSize="16"/>
+                           Text="{Binding Source={x:Reference LengthSlider}, Path=Value, StringFormat='{0:F0}'}" 
+                           FontAttributes="Bold" FontSize="16"/>
                     </Grid>
-                    <Slider x:Name="LengthSlider" Minimum="1" Maximum="30" Value="15" />
+                    <Slider x:Name="LengthSlider" Minimum="1" Maximum="30" Value="15" HeightRequest="30" />
                 </VerticalStackLayout>
             </Border>
 
-            <Border Stroke="Transparent" Padding="15">
+            <Border Stroke="Transparent" Padding="10">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="8" />
                 </Border.StrokeShape>
-                <VerticalStackLayout Spacing="12">
+                <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*, Auto">
                         <Label Text="Uppercase" VerticalOptions="Center"/>
                         <Switch Grid.Column="1" x:Name="UpperSwitch" IsToggled="True" Toggled="OnFilterToggled" />
@@ -87,35 +80,42 @@
                         <Label Text="Symbols" VerticalOptions="Center"/>
                         <Switch Grid.Column="1" x:Name="SymbolsSwitch" IsToggled="True" Toggled="OnSymbolsToggled" />
                     </Grid>
+
                     <VerticalStackLayout x:Name="SymbolsEditorLayout" Spacing="5" Margin="0,5,0,0">
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0" Text="Edit Symbols:" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
-
-                            <ImageButton Grid.Column="1" 
-                                Source="{AppThemeBinding Light=ic_reset_light.png, Dark=ic_reset_dark.png}"
-                                HeightRequest="32" 
-                                WidthRequest="32"
-                                Padding="6"
-                                BackgroundColor="Transparent"
-                                VerticalOptions="Center" 
-                                Clicked="OnResetSymbolsClicked" />
+                            <ImageButton Grid.Column="1" Source="{AppThemeBinding Light=ic_reset_light.png, Dark=ic_reset_dark.png}"
+                                     HeightRequest="32" WidthRequest="32" Padding="6" BackgroundColor="Transparent"
+                                     VerticalOptions="Center" Clicked="OnResetSymbolsClicked" />
                         </Grid>
+                        <Entry x:Name="SymbolsEntry" Text="{x:Static constants:Constants.DefaultSymbols}" FontSize="16" />
+                    </VerticalStackLayout>
 
-                        <Entry x:Name="SymbolsEntry" 
-                            Text="{x:Static constants:Constants.DefaultSymbols}" 
-                            TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                            PlaceholderColor="{AppThemeBinding Light=#A09787, Dark=Gray}"
-                            FontSize="16" />
+                    <VerticalStackLayout x:Name="ExcludedEditorLayout" Spacing="5" Margin="0,5,0,0">
+                        <Grid ColumnDefinitions="*, Auto">
+                            <Label Grid.Column="0" Text="Exclude Characters:" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
+                            <ImageButton Grid.Column="1" 
+                                Source="{AppThemeBinding Light=ic_ambiguous_light.png, Dark=ic_ambiguous_dark.png}"
+                                WidthRequest="24" 
+                                HeightRequest="24" 
+                                Padding="2"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                Clicked="OnFillAmbiguousClicked" />
+                        </Grid>
+                        <Entry x:Name="ExcludedEntry" 
+                            Placeholder="e.g. iIlL10O" 
+                            FontSize="16" 
+                            TextChanged="OnExcludedChanged" />
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Border>
 
             <Button x:Name="GenerateBtn" 
-                    Text="GENERATE PASSWORD" 
-                    FontAttributes="Bold" 
-                    HeightRequest="50"
-                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                    Clicked="OnGenerateClicked"/>
+                Text="GENERATE PASSWORD" 
+                FontAttributes="Bold" 
+                HeightRequest="45"
+                Clicked="OnGenerateClicked"/>
         </VerticalStackLayout>
     </ScrollView>
 </views:BasePage>
