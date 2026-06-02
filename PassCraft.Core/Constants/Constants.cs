@@ -16,6 +16,11 @@
             public const string Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             public const string Lowercase = "abcdefghijklmnopqrstuvwxyz";
             public const string Numbers = "0123456789";
+
+            /// <summary>
+            /// Predefined string of visually ambiguous characters prone to user confusion.
+            /// </summary>
+            public const string AmbiguousCharacters = "iIlL10O";
         }
 
         /// <summary>

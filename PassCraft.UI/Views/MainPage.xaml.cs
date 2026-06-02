@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using PassCraft.Core.Constants;
 using PassCraft.Core.Contracts;
+using System.Text;
 
 namespace PassCraft.UI.Views
 {
@@ -41,18 +42,17 @@ namespace PassCraft.UI.Views
         /// <param name="e">The associated contextual event parameters.</param>
         private void OnGenerateClicked(object? sender, EventArgs e)
         {
-            // 1. Offload the complex generation logic cleanly to the service layer
             string finalPassword = _generationService.GeneratePassword(
-                (int)LengthSlider.Value,
-                UpperSwitch.IsToggled,
-                LowerSwitch.IsToggled,
-                NumbersSwitch.IsToggled,
-                SymbolsSwitch.IsToggled ? SymbolsEntry.Text : null
-            );
+                    (int)LengthSlider.Value,
+                    UpperSwitch.IsToggled,
+                    LowerSwitch.IsToggled,
+                    NumbersSwitch.IsToggled,
+                    SymbolsSwitch.IsToggled ? SymbolsEntry.Text : null,
+                    ExcludedEntry?.Text
+                );
 
             if (string.IsNullOrEmpty(finalPassword)) return;
 
-            // 2. Update UI and log to history
             PasswordEntry.Text = finalPassword;
             _historyService.AddPassword(finalPassword);
         }
@@ -92,20 +92,70 @@ namespace PassCraft.UI.Views
         }
 
         /// <summary>
-        /// Standardized routing filter event tracking switch transitions across the criteria block.
+        /// Event handler triggered when character category switches (Upper, Lower, Numbers) change state.
+        /// Re-validates the password generation criteria to ensure a valid pool exists.
         /// </summary>
         /// <param name="sender">The interactive control source triggering the event.</param>
-        /// <param name="e">The associated contextual event parameters.</param>
+        /// <param name="e">The toggled event arguments.</param>
         private void OnFilterToggled(object? sender, ToggledEventArgs e) => ValidateFilters();
 
         /// <summary>
-        /// Evaluates structural switch metrics across the criteria array.
-        /// Safety flags or completely locks out the generation button if no valid pools are checked.
+        /// Event handler triggered when the excluded characters entry field content changes.
+        /// Re-evaluates criteria validation to ensure the exclusion rules do not empty the character pool.
+        /// </summary>
+        /// <param name="sender">The interactive control source triggering the event.</param>
+        /// <param name="e">The text changed event arguments.</param>
+        private void OnExcludedChanged(object? sender, TextChangedEventArgs e) => ValidateFilters();
+
+        /// <summary>
+        /// Fills the excluded characters entry with a predefined list of 
+        /// visually similar or easily confused characters.
+        /// </summary>
+        private void OnFillAmbiguousClicked(object? sender, EventArgs e)
+        {
+            ExcludedEntry.Text = Constants.CharacterPools.AmbiguousCharacters;
+        }
+
+        /// <summary>
+        /// Evaluates the current configuration of character criteria and exclusion rules.
+        /// Updates the <see cref="GenerateBtn"/> state to ensure the generation process 
+        /// always has a valid, non-empty character pool to pull from.
         /// </summary>
         private void ValidateFilters()
         {
             if (GenerateBtn == null) return;
-            GenerateBtn.IsEnabled = UpperSwitch.IsToggled || LowerSwitch.IsToggled || NumbersSwitch.IsToggled || SymbolsSwitch.IsToggled;
+
+            // 1. Check if at least one category is active
+            bool hasCategory = UpperSwitch.IsToggled || LowerSwitch.IsToggled ||
+                               NumbersSwitch.IsToggled || SymbolsSwitch.IsToggled;
+
+            if (!hasCategory)
+            {
+                GenerateBtn.IsEnabled = false;
+                return;
+            }
+
+            // 2. Calculate the potential pool based on active toggles
+            var sb = new StringBuilder();
+            if (UpperSwitch.IsToggled) sb.Append(Constants.CharacterPools.Uppercase);
+            if (LowerSwitch.IsToggled) sb.Append(Constants.CharacterPools.Lowercase);
+            if (NumbersSwitch.IsToggled) sb.Append(Constants.CharacterPools.Numbers);
+            if (SymbolsSwitch.IsToggled && !string.IsNullOrEmpty(SymbolsEntry.Text))
+                sb.Append(SymbolsEntry.Text);
+
+            string pool = sb.ToString();
+
+            // 3. Filter out excluded characters to determine if a valid subset remains
+            if (!string.IsNullOrEmpty(ExcludedEntry?.Text))
+            {
+                foreach (char c in ExcludedEntry.Text)
+                {
+                    pool = pool.Replace(c.ToString(), "");
+                }
+            }
+
+            // 4. Button is only enabled if the resulting pool contains at least one character
+            GenerateBtn.IsEnabled = pool.Length > 0;
         }
 
         /// <summary>
