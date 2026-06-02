@@ -1,35 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:PassCraft.Core.Models;assembly=PassCraft.Core"
-             x:Class="PassCraft.UI.Views.HistoryPage"
-             Title="Password History">
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:PassCraft.UI.Views"
+                xmlns:models="clr-namespace:PassCraft.Core.Models;assembly=PassCraft.Core"
+                x:Class="PassCraft.UI.Views.HistoryPage"
+                Title="Password History">
 
-    <Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="10">
+    <views:BasePage.ToolbarItems>
+        <ToolbarItem IconImageSource="{AppThemeBinding Light=ic_theme_light.png, Dark=ic_theme_dark.png}" 
+                 Order="Primary" 
+                 Priority="0" 
+                 Clicked="OnThemeToggleClicked" />
+    </views:BasePage.ToolbarItems>
 
-        <Grid Grid.Row="0" ColumnDefinitions="60, *, 60" BackgroundColor="{StaticResource Secondary}" Padding="10,8">
+<Grid RowDefinitions="Auto, *" Padding="15" RowSpacing="10">
+
+        <Grid Grid.Row="0" 
+            ColumnDefinitions="60, *" 
+            Padding="10,8"
+            BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}">
+
             <Label Grid.Column="0" 
-                   Text="#" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                Text="#" 
+                FontAttributes="Bold" 
+                HorizontalOptions="Center" 
+                TextColor="{AppThemeBinding Light=Black, Dark={StaticResource Primary}}" />
 
             <Label Grid.Column="1" 
-                   Text="Password" 
-                   FontAttributes="Bold" 
-                   Margin="5,0,0,0" 
-                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
-
-            <Label Grid.Column="2" 
-                   Text="Copy" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                Text="Password" 
+                FontAttributes="Bold" 
+                Margin="5,0,0,0" 
+                TextColor="{AppThemeBinding Light=Black, Dark={StaticResource Primary}}" />
         </Grid>
 
         <CollectionView Grid.Row="1" x:Name="HistoryCollectionView" SelectionMode="None">
             <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="30">
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Padding="30" Spacing="10">
+                    <Image Source="{AppThemeBinding Light=ic_history_light.png, Dark=ic_history_dark.png}" 
+                        WidthRequest="64" HeightRequest="64" Opacity="0.5" />
                     <Label Text="No passwords generated yet!" FontSize="16" TextColor="Gray" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
@@ -48,10 +56,17 @@
                                LineBreakMode="CharacterWrap"
                                MaxLines="2"/>
 
-                        <Button Grid.Column="2" Text="📋" WidthRequest="44" HeightRequest="36" Padding="0" BackgroundColor="Transparent" Clicked="OnCopyRowClicked"/>
+                        <ImageButton 
+                            Grid.Column="2" 
+                            Source="{AppThemeBinding Light=ic_copy_light.png, Dark=ic_copy_dark.png}" 
+                            WidthRequest="44" 
+                            HeightRequest="44"
+                            Padding="8"
+                            BackgroundColor="Transparent"
+                            Clicked="OnCopyRowClicked"/>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
-</ContentPage>
+</views:BasePage>
