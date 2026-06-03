@@ -27,7 +27,8 @@ namespace PassCraft.UI.Views
         private readonly IPasswordHistoryService _historyService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainPage"/> class with required business logic engine injections.
+        /// Initializes a new instance of the <see cref="MainPage"/> class with required business logic engine injections 
+        /// and evaluates initial filter rules to synchronize startup UI component states.
         /// </summary>
         /// <param name="generationService">The injected engine handling password generation routines.</param>
         /// <param name="validationService">The injected validation service evaluating character pool viability.</param>
@@ -38,6 +39,9 @@ namespace PassCraft.UI.Views
             _generationService = generationService;
             _validationService = validationService;
             _historyService = historyService;
+
+            // Run initial validation to sync all button states with the starting data
+            ValidateFilters();
         }
 
         /// <summary>
@@ -137,6 +141,7 @@ namespace PassCraft.UI.Views
         {
             if (GenerateBtn == null) return;
 
+            // 1. Handle primary Generation Button eligibility state
             GenerateBtn.IsEnabled = _validationService.IsPoolValid(
                 UpperSwitch.IsToggled,
                 LowerSwitch.IsToggled,
@@ -145,6 +150,26 @@ namespace PassCraft.UI.Views
                 SymbolsEntry?.Text,
                 ExcludedEntry?.Text
             );
+
+            // 2. Handle Reset Symbols button visibility (Invisible if current input matches the default reference)
+            if (ResetSymbolsBtn != null && SymbolsEntry != null)
+            {
+                bool isAlreadyDefault = _validationService.AreCharacterSetsEquivalent(
+                    SymbolsEntry.Text,
+                    Constants.CharacterPools.DefaultSymbols);
+
+                ResetSymbolsBtn.IsVisible = !isAlreadyDefault;
+            }
+
+            // 3. Handle Ambiguous shortcut button visibility (Invisible if current input matches the ambiguity reference)
+            if (AmbiguousBtn != null && ExcludedEntry != null)
+            {
+                bool isAlreadyAmbiguous = _validationService.AreCharacterSetsEquivalent(
+                    ExcludedEntry.Text,
+                    Constants.CharacterPools.AmbiguousCharacters);
+
+                AmbiguousBtn.IsVisible = !isAlreadyAmbiguous;
+            }
         }
 
         /// <summary>

@@ -10,5 +10,11 @@
         /// </summary>
         /// <returns>True if the final computed character pool contains at least one valid item; otherwise, false.</returns>
         bool IsPoolValid(bool useUpper, bool useLower, bool useNumbers, bool useSymbols, string? customSymbols, string? excludedChars);
+
+        /// <summary>
+        /// Compares an input string against a target reference set of characters, ignoring sequence order and character duplicates.
+        /// </summary>
+        /// <returns>True if the set of unique characters matches exactly; otherwise, false.</returns>
+        bool AreCharacterSetsEquivalent(string? input, string targetReference);
     }
 }
