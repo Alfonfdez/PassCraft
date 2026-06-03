@@ -3,8 +3,21 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:PassCraft.UI.Views"
                 xmlns:constants="clr-namespace:PassCraft.Core.Constants;assembly=PassCraft.Core"
-                x:Class="PassCraft.UI.Views.MainPage"
-                Title="PassCraft">
+                x:Class="PassCraft.UI.Views.MainPage">
+
+    <Shell.TitleView>
+        <HorizontalStackLayout VerticalOptions="Center" Spacing="8">
+            <Image Source="passcraft.svg" 
+                   WidthRequest="28" 
+                   HeightRequest="28" 
+                   VerticalOptions="Center" />
+            <Label Text="PassCraft" 
+                   FontSize="18" 
+                   FontAttributes="Bold" 
+                   TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                   VerticalOptions="Center" />
+        </HorizontalStackLayout>
+    </Shell.TitleView>
 
     <views:BasePage.ToolbarItems>
         <ToolbarItem x:Name="ThemeToggleBtn"

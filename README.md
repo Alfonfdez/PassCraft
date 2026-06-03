@@ -5,29 +5,34 @@ PassCraft is a modern, lightweight, and secure password generator application bu
 ## Key Features
 
 - **Customizable Generation**: Configure length, character sets (Uppercase, Lowercase, Numbers, Symbols).
+- **Advanced Domain Validation**: Real-time evaluation prevents empty character pools and dynamically toggles controls.
+- **Smart Adaptive UI**: Interface buttons (like Reset Symbols and Exclude Ambiguous) contextually show or hide themselves when text sets match target references, stripping out duplicates and ignoring sorting orders.
 - **Advanced Filtering**: Exclude specific characters to ensure compatibility or readability.
 - **Smart Ambiguity Tool**: One-tap quick-fill to exclude visually similar characters (like `i`, `l`, `1`, `O`, `0`).
 - **Secure History**: Automatically track and review previously generated passwords.
-- **Modern UI**: Built with .NET MAUI, supporting both Light and Dark modes.
+- **Modern UI**: Built with .NET MAUI, supporting both Light and Dark modes with an integrated brand asset header that completely replaces the flyout hamburger menu layout.
 
 ## Screenshots
 
-![Main Screen](assets/main_screen.jpg)
-![History Screen](assets/history_screen.jpg)
+<img src="assets/main_screen.jpg" alt="Main Screen" width="360" />
+
+<br/><br/> <img src="assets/history_screen.jpg" alt="History Screen" width="360" />
 
 ## Architecture
 
-PassCraft follows a clean, decoupled architecture:
-- **UI Layer**: .NET MAUI views for a cross-platform responsive interface.
+PassCraft follows a clean, decoupled, and highly testable architecture:
+- **UI Layer**: .NET MAUI views using code-behind events mapped directly to underlying decoupled engines.
+- **Validation Domain Engine**: A dedicated `IPasswordValidationService` handling pool viability calculations and set-equivalence checks for UI states.
 - **Core Engine**: A dedicated `IPasswordGenerationService` for high-entropy random sequence generation.
-- **History Service**: Persistent storage for tracking generated passwords.
+- **History Service**: Persistent storage orchestrator tracking and formatting generated password items.
 
 ## Tech Stack
 
-- **Framework**: .NET MAUI
+- **Framework**: .NET 10.0 / .NET MAUI
 - **Language**: C#
+- **Testing Ecosystem**: xUnit / Coverlet
 - **Toolkit**: CommunityToolkit.Maui
-- **Design**: SVG-based iconography for consistent theme support
+- **Design**: Fixed track grid sizing with SVG-based iconography for consistent light/dark theme support
 
 ## Contributing
 
