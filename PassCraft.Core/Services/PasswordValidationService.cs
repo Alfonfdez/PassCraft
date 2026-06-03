@@ -39,5 +39,16 @@ namespace PassCraft.Core.Services
             // 4. Return whether any usable tokens are left
             return pool.Length > 0;
         }
+
+        public bool AreCharacterSetsEquivalent(string? input, string targetReference)
+        {
+            if (input == null) return targetReference.Length == 0;
+
+            // Using HashSets extracts unique characters and ignores sequence order entirely
+            var inputSet = new HashSet<char>(input);
+            var targetSet = new HashSet<char>(targetReference);
+
+            return inputSet.SetEquals(targetSet);
+        }
     }
 }

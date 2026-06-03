@@ -82,9 +82,12 @@
                     </Grid>
 
                     <VerticalStackLayout x:Name="SymbolsEditorLayout" Spacing="5" Margin="0,5,0,0">
-                        <Grid ColumnDefinitions="*, Auto">
+                        <Grid ColumnDefinitions="*, Auto" HeightRequest="32">
                             <Label Grid.Column="0" Text="Edit Symbols:" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
-                            <ImageButton Grid.Column="1" Source="{AppThemeBinding Light=ic_reset_light.png, Dark=ic_reset_dark.png}"
+                            <ImageButton Grid.Column="1" 
+                                x:Name="ResetSymbolsBtn"
+                                Source="{AppThemeBinding Light=ic_reset_light.png, Dark=ic_reset_dark.png}"
+                                IsVisible="False"
                                 HeightRequest="32" WidthRequest="32" Padding="6" BackgroundColor="Transparent"
                                 VerticalOptions="Center" Clicked="OnResetSymbolsClicked" />
                         </Grid>
@@ -95,10 +98,12 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout x:Name="ExcludedEditorLayout" Spacing="5" Margin="0,5,0,0">
-                        <Grid ColumnDefinitions="*, Auto">
+                        <Grid ColumnDefinitions="*, Auto" HeightRequest="32">
                             <Label Grid.Column="0" Text="Exclude Characters:" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                             <ImageButton Grid.Column="1" 
+                                x:Name="AmbiguousBtn"
                                 Source="{AppThemeBinding Light=ic_ambiguous_light.png, Dark=ic_ambiguous_dark.png}"
+                                IsVisible="False"
                                 WidthRequest="24" 
                                 HeightRequest="24" 
                                 Padding="2"
