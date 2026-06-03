@@ -14,9 +14,9 @@ PassCraft is a modern, lightweight, and secure password generator application bu
 
 ## Screenshots
 
-<img src="assets/main_screen.jpg" alt="Main Screen" width="360" />
+<img src="assets/main_screen_v2.jpg" alt="Main Screen" width="360" />
 
-<br/><br/> <img src="assets/history_screen.jpg" alt="History Screen" width="360" />
+<br/><br/> <img src="assets/history_screen_v2.jpg" alt="History Screen" width="360" />
 
 ## Architecture
 
