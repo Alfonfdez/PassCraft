@@ -2,7 +2,6 @@ using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using PassCraft.Core.Constants;
 using PassCraft.Core.Contracts;
-using System.Text;
 
 namespace PassCraft.UI.Views
 {
@@ -18,6 +17,11 @@ namespace PassCraft.UI.Views
         private readonly IPasswordGenerationService _generationService;
 
         /// <summary>
+        /// The domain validation engine utilized to dynamically evaluate real-time character matrix configurations.
+        /// </summary>
+        private readonly IPasswordValidationService _validationService;
+
+        /// <summary>
         /// The persistent tracking orchestrator used to log securely authorized password outputs.
         /// </summary>
         private readonly IPasswordHistoryService _historyService;
@@ -26,11 +30,13 @@ namespace PassCraft.UI.Views
         /// Initializes a new instance of the <see cref="MainPage"/> class with required business logic engine injections.
         /// </summary>
         /// <param name="generationService">The injected engine handling password generation routines.</param>
+        /// <param name="validationService">The injected validation service evaluating character pool viability.</param>
         /// <param name="historyService">The injected logging instance tracking generation history records.</param>
-        public MainPage(IPasswordGenerationService generationService, IPasswordHistoryService historyService)
+        public MainPage(IPasswordGenerationService generationService, IPasswordValidationService validationService, IPasswordHistoryService historyService)
         {
             InitializeComponent();
             _generationService = generationService;
+            _validationService = validationService;
             _historyService = historyService;
         }
 
@@ -108,6 +114,14 @@ namespace PassCraft.UI.Views
         private void OnExcludedChanged(object? sender, TextChangedEventArgs e) => ValidateFilters();
 
         /// <summary>
+        /// Event handler triggered when the custom symbols entry field content changes.
+        /// Re-evaluates validation states to handle scenarios where all symbol characters are deleted.
+        /// </summary>
+        /// <param name="sender">The interactive control source triggering the event.</param>
+        /// <param name="e">The text changed event arguments.</param>
+        private void OnSymbolsTextChanged(object? sender, TextChangedEventArgs e) => ValidateFilters();
+
+        /// <summary>
         /// Fills the excluded characters entry with a predefined list of 
         /// visually similar or easily confused characters.
         /// </summary>
@@ -117,45 +131,20 @@ namespace PassCraft.UI.Views
         }
 
         /// <summary>
-        /// Evaluates the current configuration of character criteria and exclusion rules.
-        /// Updates the <see cref="GenerateBtn"/> state to ensure the generation process 
-        /// always has a valid, non-empty character pool to pull from.
+        /// Evaluates UI criteria against the validation domain service and updates control interactability.
         /// </summary>
         private void ValidateFilters()
         {
             if (GenerateBtn == null) return;
 
-            // 1. Check if at least one category is active
-            bool hasCategory = UpperSwitch.IsToggled || LowerSwitch.IsToggled ||
-                               NumbersSwitch.IsToggled || SymbolsSwitch.IsToggled;
-
-            if (!hasCategory)
-            {
-                GenerateBtn.IsEnabled = false;
-                return;
-            }
-
-            // 2. Calculate the potential pool based on active toggles
-            var sb = new StringBuilder();
-            if (UpperSwitch.IsToggled) sb.Append(Constants.CharacterPools.Uppercase);
-            if (LowerSwitch.IsToggled) sb.Append(Constants.CharacterPools.Lowercase);
-            if (NumbersSwitch.IsToggled) sb.Append(Constants.CharacterPools.Numbers);
-            if (SymbolsSwitch.IsToggled && !string.IsNullOrEmpty(SymbolsEntry.Text))
-                sb.Append(SymbolsEntry.Text);
-
-            string pool = sb.ToString();
-
-            // 3. Filter out excluded characters to determine if a valid subset remains
-            if (!string.IsNullOrEmpty(ExcludedEntry?.Text))
-            {
-                foreach (char c in ExcludedEntry.Text)
-                {
-                    pool = pool.Replace(c.ToString(), "");
-                }
-            }
-
-            // 4. Button is only enabled if the resulting pool contains at least one character
-            GenerateBtn.IsEnabled = pool.Length > 0;
+            GenerateBtn.IsEnabled = _validationService.IsPoolValid(
+                UpperSwitch.IsToggled,
+                LowerSwitch.IsToggled,
+                NumbersSwitch.IsToggled,
+                SymbolsSwitch.IsToggled,
+                SymbolsEntry?.Text,
+                ExcludedEntry?.Text
+            );
         }
 
         /// <summary>
