@@ -85,10 +85,13 @@
                         <Grid ColumnDefinitions="*, Auto">
                             <Label Grid.Column="0" Text="Edit Symbols:" FontSize="15" FontAttributes="Bold" VerticalOptions="Center"/>
                             <ImageButton Grid.Column="1" Source="{AppThemeBinding Light=ic_reset_light.png, Dark=ic_reset_dark.png}"
-                                     HeightRequest="32" WidthRequest="32" Padding="6" BackgroundColor="Transparent"
-                                     VerticalOptions="Center" Clicked="OnResetSymbolsClicked" />
+                                HeightRequest="32" WidthRequest="32" Padding="6" BackgroundColor="Transparent"
+                                VerticalOptions="Center" Clicked="OnResetSymbolsClicked" />
                         </Grid>
-                        <Entry x:Name="SymbolsEntry" Text="{x:Static constants:Constants.DefaultSymbols}" FontSize="16" />
+                        <Entry x:Name="SymbolsEntry" 
+                            Text="{x:Static constants:Constants.DefaultSymbols}" 
+                            FontSize="16" 
+                            TextChanged="OnSymbolsTextChanged" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout x:Name="ExcludedEditorLayout" Spacing="5" Margin="0,5,0,0">
